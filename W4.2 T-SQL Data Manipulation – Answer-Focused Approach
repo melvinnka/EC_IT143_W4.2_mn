@@ -1,12 +1,7 @@
-/* AUTHOR: Melvin Nkandu 
+/* 
+  AUTHOR: Melvin Nkandu 
   ASSIGNMENT: W4.2 T-SQL Data Manipulation – Answer-Focused Approach
   DATASET: Samsung_iPhone_Specifications */
-
-/******************************************************************************
-******************************************************************************
-COMMUNITY 1 - SAMSUNG PHONES
-******************************************************************************
-******************************************************************************/
 
 /******************************************************************************
 STEP 1
@@ -34,7 +29,6 @@ WHERE Brand = 'Samsung'
 GROUP BY ReleaseYear
 ORDER BY ReleaseYear;
 
-
 /******************************************************************************
 STEP 4 - Create View
 ******************************************************************************/
@@ -47,14 +41,28 @@ SELECT
 FROM Samsung_iPhone_Specifications
 WHERE Brand = 'Samsung'
 GROUP BY ReleaseYear;
+GO
+
+SELECT *
+FROM v_samsung_models_by_year_mn;
 
 
 /******************************************************************************
-STEP 5 - Create Table
+STEP 5.1 - Create Table from View
 ******************************************************************************/
 
 DROP TABLE IF EXISTS t_samsung_models_by_year_mn;
 
+SELECT *
+INTO t_samsung_models_by_year_mn
+FROM v_samsung_models_by_year_mn;
+
+
+/******************************************************************************
+STEP 5.2 - Refine Table Structure
+******************************************************************************/
+
+DROP TABLE IF EXISTS t_samsung_models_by_year_mn;
 
 CREATE TABLE t_samsung_models_by_year_mn
 (
@@ -67,6 +75,8 @@ CREATE TABLE t_samsung_models_by_year_mn
 STEP 6 - Load Table
 ******************************************************************************/
 
+TRUNCATE TABLE t_samsung_models_by_year_mn;
+
 INSERT INTO t_samsung_models_by_year_mn
 (
     ReleaseYear,
@@ -77,9 +87,12 @@ SELECT
     TotalModels
 FROM v_samsung_models_by_year_mn;
 
+SELECT *
+FROM t_samsung_models_by_year_mn;
+
 
 /******************************************************************************
-STEP 7 - Stored Procedure
+STEP 7 - Create Stored Procedure
 ******************************************************************************/
 
 CREATE OR ALTER PROCEDURE p_load_samsung_models_by_year_mn
@@ -108,7 +121,6 @@ EXEC p_load_samsung_models_by_year_mn;
 
 SELECT *
 FROM t_samsung_models_by_year_mn;
-
 
 
 /******************************************************************************
